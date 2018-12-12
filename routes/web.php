@@ -2,9 +2,10 @@
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Lang;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageManager as Ims;
-use App\Country;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,16 @@ use App\Country;
 |
 */
 
-Route::get('/', function () {
+Route::get('welcome/{locale}', function ($locale) {
     // $user = User::all();
     // return view('welcome')->withUsers($user);
 
-    // return view('hello');
+    /**
+     * Start with localization.
+     */
+    // Lang::setLocale(); /* applies it to another folder */
+    App::setLocale($locale);
+    return view('hello');
 });
 
 

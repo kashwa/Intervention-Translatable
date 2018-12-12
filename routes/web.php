@@ -18,7 +18,7 @@ use Intervention\Image\ImageManager as Ims;
 |
 */
 
-Route::get('welcome/{locale}', function ($locale) {
+Route::get('/', function () {
     // $user = User::all();
     // return view('welcome')->withUsers($user);
 
@@ -26,9 +26,19 @@ Route::get('welcome/{locale}', function ($locale) {
      * Start with localization.
      */
     // Lang::setLocale(); /* applies it to another folder */
-    App::setLocale($locale);
-    return view('hello');
+    // App::setLocale($locale);
+    return view('welcome');
 });
+
+/**
+ * Routes about setting localization up.
+ */
+Route::get('/localization', 'localeController@getLang');
+Route::get('/set', 'localeController@setLocale')->name('set');
+
+
+
+
 
 
 // For the image upload handling.

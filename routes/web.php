@@ -3,6 +3,7 @@
 use App\User;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager as Ims;
 use App\Country;
 
 /*
@@ -17,18 +18,33 @@ use App\Country;
 */
 
 Route::get('/', function () {
-    $user = User::all();
-    return view('welcome')->withUsers($user);
+    // $user = User::all();
+    // return view('welcome')->withUsers($user);
+
+    // return view('hello');
 });
 
 
 // For the image upload handling.
 Route::post('/', function(Request $request) {
+
+    $request->validate([
+        # card.png = 151 kb
+        # ashraf.png = 30 kb
+        'img' => 'sometimes|image'
+    ]);
+
     if ($request->hasFile('img')) {
         $image = $request->file('img');
         $filename = time() . '.' . $image->getClientOriginalExtension();
         $location = public_path('images/' . $filename);
-        Image::make($image)->resize(80, 72)->save($location);
+
+        # compression.
+        
+        $img = Image::make($image);
+        
+        # add low quality to save method.
+        $img->save($location, 10);
 
         $user = new User();
         $user->name = 'aabed';
@@ -38,12 +54,12 @@ Route::post('/', function(Request $request) {
 });
 
 /**
- * In order to setup this, i would need to:
- * 1- Create a migration
- * 2- Create a model to it
- *  2-a: declare $translatedAttributes[] in this model.
- * 
- */
+         * In order to setup this, i would need to:
+         * 1- Create a migration
+         * 2- Create a model to it
+         *  2-a: declare $translatedAttributes[] in this model.
+         * 
+         */
 
 Route::get('create', function () {
     // $country = new Country();
